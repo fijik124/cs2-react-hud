@@ -8,10 +8,14 @@ import { Match } from './API/types';
 import api from './API';
 import { GSI } from './API/HUD';
 import { socket } from './API/socket';
+// import BlastMatchBarDemo from './BlastMatchBarDemo'; // Uncomment to test BLAST Match Bar
 
 function App() {
   const [ game, setGame ] = useState<CSGO | null>(null);
   const [ match, setMatch ] = useState<Match | null>(null);
+
+  // Uncomment the line below to test the BLAST Match Bar component
+  // return <BlastMatchBarDemo />;
 
   useEffect(() => {
     const onMatchPing = () => {

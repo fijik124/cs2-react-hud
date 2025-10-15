@@ -1,0 +1,506 @@
+// ===== BLAST MATCH BAR STYLES =====
+// BLAST Austin Major Theme: Bold, Clean, High-Contrast, Professional
+
+// ===== MAIN MATCH BAR =====
+.blast-matchbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0a0a0a;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+// ===== TEAM SECTION =====
+.blast-team-section {
+  display: flex;
+  align-items: center;
+
+  &.left {
+    flex-direction: row-reverse;
+  }
+
+  &.right {
+    flex-direction: row;
+  }
+}
+
+// Team Color Border - 15px wide (now at the end)
+.team-color-border {
+  width: 15px;
+  height: 70px;
+  transition: opacity 0.3s ease, width 0.3s ease;
+  
+  &.hidden {
+    opacity: 0;
+    width: 0;
+  }
+}
+
+// Score with Series Squares Container
+.score-with-series {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a1a1a;
+  height: 70px;
+  min-width: 50px;
+  padding: 0 8px;
+}
+
+// Series Squares - On Top (Smaller)
+.series-squares-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+
+.series-square {
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid #555555;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  
+  &.won {
+    // Fill with team color when won (left side = blue, right side = yellow)
+    .blast-team-section.left & {
+      background-color: #28abff;
+      border-color: #28abff;
+    }
+    
+    .blast-team-section.right & {
+      background-color: #ffc600;
+      border-color: #ffc600;
+    }
+  }
+}
+
+// Round Score - Below squares
+.round-score {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1;
+  
+  // Default color
+  color: white;
+  
+  // Left side (CT) - Blue
+  .blast-team-section.left & {
+    color: #28abff;
+  }
+  
+  // Right side (T) - Yellow/Gold
+  .blast-team-section.right & {
+    color: #ffc600;
+  }
+}
+
+// Team Name Container
+.team-name-container {
+  position: relative;
+  width: 280px;
+  height: 70px;
+  background-color: #1a1a1a;
+  overflow: hidden;
+}
+
+.team-name {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 20px;
+  color: white;
+  transition: opacity 0.3s ease;
+
+  &.hidden {
+    opacity: 0;
+  }
+}
+
+// Bomb Progress Container
+.bomb-progress-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.bomb-progress-bar {
+  position: absolute;
+  height: 100%;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Defusing - fills from edge (blue CT color)
+  &.defusing {
+    background: linear-gradient(90deg, #28abff 0%, #5cc5ff 100%);
+    
+    &.left {
+      right: 0;
+    }
+    
+    &.right {
+      left: 0;
+    }
+  }
+
+  @keyframes fillRightT {
+  0% { 
+    background-color: #dc2626;
+    right: 10%
+  }
+  50% { 
+    top: 250px; 
+  }
+  100% { 
+    background-color: lightgreen;
+    top: 0px; 
+  }
+}
+  
+  // Planting - fills from center (timer side) outward (red T color)
+  &.planting {
+    background: linear-gradient(90deg, #dc2626 0%, #ef4444 100%);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, width;
+    
+    &.left {
+      left: 0;
+      right: auto;
+      transform-origin: left;
+    }
+    &.right {
+      right: 0;
+      left: auto;
+      transform-origin: right;
+    }
+  }
+  
+  // Planted - ticks from outward to middle (red T color, reverse of planting)
+  // The width represents remaining time, so it shrinks from edges toward center
+  &.planted {
+    background: linear-gradient(90deg, #dc2626 0%, #ef4444 100%);
+    
+    &.left {
+      right: 0;
+    }
+    
+    &.right {
+      left: 0;
+    }
+  }
+}
+
+.bomb-progress-label {
+  position: absolute;
+  z-index: 10;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 1.3;
+  
+  // If team is on left, label appears on left side (opposite of bomb)
+  &.left {
+    left: 12px;
+  }
+  
+  // If team is on right, label appears on right side (opposite of bomb)
+  &.right {
+    right: 12px;
+  }
+  
+  .planting-text,
+  .defusing-text {
+    font-size: 14px;
+    opacity: 0.9;
+  }
+}
+
+// Bomb Icon on Side (pulsing red bomb icon when planted)
+.bomb-icon-side {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 15;
+  animation: bombPulse 1s ease-in-out infinite;
+  
+  // If terrorist is on left, bomb appears on right side of container
+  &.right {
+    right: 12px;
+  }
+  
+  // If terrorist is on right, bomb appears on left side of container
+  &.left {
+    left: 12px;
+  }
+  
+  .bomb-svg {
+    filter: drop-shadow(0 0 10px #dc2626) drop-shadow(0 0 5px #ef4444);
+    
+    &.defusing {
+      filter: drop-shadow(0 0 10px #28abff) drop-shadow(0 0 5px #5cc5ff);
+    }
+  }
+  
+  // Defusing state - blue glow instead of red
+  &.defusing {
+    animation: defusePulse 0.6s ease-in-out infinite;
+  }
+}
+
+@keyframes bombPulse {
+  0%, 100% {
+    transform: translateY(-50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-50%) scale(1.1);
+    opacity: 0.95;
+  }
+}
+
+@keyframes defusePulse {
+  0%, 100% {
+    transform: translateY(-50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-50%) scale(1.05);
+    opacity: 1;
+  }
+}
+
+// Team Logo Box
+.team-logo-box {
+  width: 70px;
+  height: 70px;
+  background-color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+  }
+  
+  .fallback-logo {
+    width: 40px;
+    height: 40px;
+    background-color: #2a2a2a;
+    border: 2px solid #555555;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    span {
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: bold;
+      font-size: 14px;
+      color: #ffffff;
+    }
+  }
+}
+
+// Separators
+.separator {
+  width: 2px;
+  height: 70px;
+  background-color: #333;
+}
+
+// ===== CENTER TIMER SECTION =====
+.center-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 70px;
+  background-color: #1a1a1a;
+  position: relative;
+}
+
+.round-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 100%;
+  border-bottom: 1px solid #333;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 12px;
+  color: #999;
+  transition: opacity 0.3s;
+
+  &.hide {
+    opacity: 0;
+    display: none;
+  }
+}
+
+.round-timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 32px;
+  color: white;
+  transition: opacity 0.3s;
+
+  &.hide {
+    opacity: 0;
+    display: none;
+  }
+}
+
+.bomb-indicator {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  
+  .bomb-icon {
+    font-size: 28px;
+    margin-bottom: 4px;
+  }
+  
+  .bomb-countdown {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 18px;
+    color: #ef4444;
+  }
+}
+
+// Separators
+.separator {
+  width: 2px;
+  height: 70px;
+  background-color: #333;
+}
+
+// ===== PLAYER ROSTERS (removed from main bar, can be added as overlay) =====
+// This section is commented out as rosters are typically shown in the existing PlayerOverview component
+/*
+.player-rosters {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 32px;
+  width: 100%;
+  max-width: 1400px;
+}
+
+.roster-column {
+  flex: 1;
+  max-width: 600px;
+}
+
+.roster-header {
+  margin-bottom: 8px;
+  padding: 8px 16px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+}
+
+.roster-list {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.player-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #333;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.player-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.player-name {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+  font-size: 16px;
+  color: white;
+}
+
+.player-stats {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  color: #999;
+
+  .stat-kills {
+    color: #4ade80;
+  }
+
+  .stat-deaths {
+    color: #f87171;
+  }
+
+  .stat-assists {
+    color: #60a5fa;
+  }
+}
+*/
+
+// ===== END OF BLAST MATCH BAR STYLES =====

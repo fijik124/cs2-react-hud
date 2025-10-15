@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TeamBox from "./../Players/TeamBox";
 import MatchBar from "../MatchBar/MatchBar";
+import BlastMatchBar from "../MatchBar/BlastMatchBar";
 import SeriesBox from "../MatchBar/SeriesBox";
 import Observed from "./../Players/Observed";
 import RadarMaps from "./../Radar/RadarMaps";
@@ -61,7 +62,13 @@ const Layout = ({game,match}: Props) => {
       <Killfeed />
       <Overview match={match} map={game.map} players={game.players || []} />
       <RadarMaps match={match} map={game.map} game={game} />
-      <MatchBar map={game.map} phase={game.phase_countdowns} bomb={game.bomb} match={match} />
+      
+      {/* BLAST Match Bar - New Implementation */}
+      <BlastMatchBar map={game.map} phase={game.phase_countdowns} bomb={game.bomb} match={match} players={game.players || []} />
+      
+      {/* Original Match Bar - Comment out to use BLAST version only */}
+      {/* <MatchBar map={game.map} phase={game.phase_countdowns} bomb={game.bomb} match={match} /> */}
+      
       <Pause  phase={game.phase_countdowns}/>
       <Timeout map={game.map} phase={game.phase_countdowns} />
       <SeriesBox map={game.map} match={match} />
