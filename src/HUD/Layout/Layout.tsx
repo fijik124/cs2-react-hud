@@ -1,5 +1,6 @@
 import { useState } from "react";
 import TeamBox from "./../Players/TeamBox";
+import SpartansTeamBox from "./../Players/SpartanTeamBox";
 import MatchBar from "../MatchBar/MatchBar";
 import BlastMatchBar from "../MatchBar/BlastMatchBar";
 import SeriesBox from "../MatchBar/SeriesBox";
@@ -77,8 +78,8 @@ const Layout = ({game,match}: Props) => {
 
       <Observed player={game.player} />
 
-      <TeamBox team={left} players={leftPlayers} side="left" current={game.player} />
-      <TeamBox team={right} players={rightPlayers} side="right" current={game.player} />
+      <SpartansTeamBox team={left} players={leftPlayers} side="left" current={game.player} />
+      <SpartansTeamBox team={right} players={rightPlayers} side="right" current={game.player} />
 
       <Trivia />
       <Scout left={left.side} right={right.side} />

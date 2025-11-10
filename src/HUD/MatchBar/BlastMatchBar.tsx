@@ -129,9 +129,7 @@ const TeamScoreSection: React.FC<TeamScoreProps> = ({
               style={
                 bombState === 'planting'
                   ? {
-                      width: '100%',
-                      transform: `scaleX(${bombProgress / 100})`,
-                      transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                      width: `${bombProgress}%`,
                     }
                   : { width: `${bombProgress}%` }
               }
@@ -264,11 +262,16 @@ const BlastMatchBar: React.FC<IProps> = ({ match, map, phase, bomb, players }) =
       }, 100);
       return () => clearInterval(timer);
     } else if (bomb.state === "planting") {
-      const timer = setInterval(() => {
-        const progress = Math.min(100, Math.max(0, (bomb.countdown || 0) * 33.33)); // ~3 seconds to plant
+    const timer = setInterval(() => {
+        // Assuming planting takes ~3 seconds (3 * 33.33 = 99.99)
+        const totalPlantingTime = 3; 
+
+        // Progress = (Total Time - Remaining Time) * Scaling Factor
+        const progress = Math.min(100, Math.max(0, (totalPlantingTime - (bomb.countdown || 0)) * 33.33));
+        
         setBombProgress(progress);
-      }, 100);
-      return () => clearInterval(timer);
+    }, 100);
+    return () => clearInterval(timer);
     }
 
     setBombProgress(0);

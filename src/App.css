@@ -44,12 +44,28 @@ code {
   --color-gray: rgba(191, 191, 191, 1.0);
   --color-moneys: #a7d32e;
   --dev-purple: rgba(200, 0, 255, 1);
-  --color-t: #c19511;
-  --color-ct: #5788a8;
-  --color-new-t: #f0c941;
-  --color-new-ct: #5ab8f4;
   --color-bomb: #f22222;
   --color-defuse: #2222f2;
+  --color-t-profiles: #F60639;
+  --color-t-icons: #590414;
+
+  /* CSS Variables for panels */
+  --color-main-panel: #1D2333;
+
+  /* CSS Variables for player layout */
+  --color-utility-background: #394353;
+  --color-utility-active: #00A3C9;
+
+  /* CSS Variables for main team collors */
+  --color-player-dead: #5E6166;
+  --color-t: #C91D3D;
+  --color-t-gradient: #6B0B1D;
+  --color-ct: #00A3C9;
+  --color-ct-gradient: #005C8C;
+
+  /* CSS Variables for Texts */
+  --text-color-primary: #F0F8FF;
+  --text-color-money: #00FF87;
 }
 
 
